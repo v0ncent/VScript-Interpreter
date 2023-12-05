@@ -1,30 +1,65 @@
+import org.json.simple.JSONObject;
+import org.json.simple.parser.JSONParser;
+import org.json.simple.parser.ParseException;
+
+import java.io.FileReader;
+import java.io.IOException;
+import java.util.Scanner;
+
 public class Main {
+    private static Config config = null;
+
+    static {
+        // parse config file before running interpreter
+        JSONParser parser = new JSONParser();
+        try {
+            final JSONObject parsedConfigFile = (JSONObject) parser.parse(new FileReader("config.json"));
+
+            config = new Config(
+                    parsedConfigFile.get("version").toString(),
+                    parsedConfigFile.get("auth").toString()
+            );
+
+        } catch (IOException | ParseException e) {
+            e.printStackTrace();
+        }
+    }
 
     private static void run() {
+        final Scanner listener = new Scanner(System.in);
+        final String[] args = listener.nextLine().split(" ");
 
+        Handler.handle(args);
     }
 
     public static void main(String[] args) {
-        System.out.println("                             _..._                                                 \n" +
-                "                          .-'_..._''.                                              \n" +
-                " .----.     .----.      .' .'      '.\\        .--._________   _...._               \n" +
-                "  \\    \\   /    /      / .'                   |__|\\        |.'      '-.            \n" +
-                "   '   '. /'   /      . '             .-,.--. .--. \\        .'```'.    '.     .|   \n" +
-                "   |    |'    /       | |             |  .-. ||  |  \\      |       \\     \\  .' |_  \n" +
-                "   |    ||    |    _  | |             | |  | ||  |   |     |        |    |.'     | \n" +
-                "   '.   `'   .'  .' | . '             | |  | ||  |   |      \\      /    .'--.  .-' \n" +
-                "    \\        /  .   | /\\ '.          .| |  '- |  |   |     |\\`'-.-'   .'    |  |   \n" +
-                "     \\      / .'.'| |// '. `._____.-'/| |     |__|   |     | '-....-'`      |  |   \n" +
-                "      '----'.'.'.-'  /    `-.______ / | |           .'     '.               |  '.' \n" +
-                "            .'   \\_.'              `  |_|         '-----------'             |   /  \n" +
-                "                                                                            `'-'   ");
+        // print out fancy stuff
+        System.out.println("""
+                                            _..._                                                \s
+                                         .-'_..._''.                                             \s
+                .----.     .----.      .' .'      '.\\        .--._________   _...._              \s
+                 \\    \\   /    /      / .'                   |__|\\        |.'      '-.           \s
+                  '   '. /'   /      . '             .-,.--. .--. \\        .'```'.    '.     .|  \s
+                  |    |'    /       | |             |  .-. ||  |  \\      |       \\     \\  .' |_ \s
+                  |    ||    |    _  | |             | |  | ||  |   |     |        |    |.'     |\s
+                  '.   `'   .'  .' | . '             | |  | ||  |   |      \\      /    .'--.  .-'\s
+                   \\        /  .   | /\\ '.          .| |  '- |  |   |     |\\`'-.-'   .'    |  |  \s
+                    \\      / .'.'| |// '. `._____.-'/| |     |__|   |     | '-....-'`      |  |  \s
+                     '----'.'.'.-'  /    `-.______ / | |           .'     '.               |  '.'\s
+                           .'   \\_.'              `  |_|         '-----------'             |   / \s
+                                                                                           `'-'  \s""".indent(1));
 
-        System.out.println("- By Vincent Banks");
+        System.out.printf("By %s version %s",config.getAuth(),config.getVersion());
 
         while(true) {
-            run();
-        }
 
+            try {
+                run();
+            } catch (Exception e) {
+                e.printStackTrace();
+                run();
+            }
+        }
 
     }
 
