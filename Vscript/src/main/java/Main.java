@@ -7,7 +7,7 @@ import java.io.IOException;
 import java.util.Scanner;
 
 public class Main {
-    private static Config config = null;
+    public static Config config = null;
 
     static {
         // parse config file before running interpreter
@@ -25,15 +25,15 @@ public class Main {
         }
     }
 
-    private static void run() {
+    private static void run() throws Exception {
         final Scanner listener = new Scanner(System.in);
-        System.out.println(":> ");
         final String[] args = listener.nextLine().split(" ");
+        System.out.println(":> ");
 
         Handler.handle(args);
     }
 
-    public static void main(String[] args) {
+    public static void main(String[] args) throws Exception {
         // print out fancy stuff
         System.out.println("""
                                             _..._                                                \s
