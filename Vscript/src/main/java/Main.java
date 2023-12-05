@@ -50,9 +50,9 @@ public class Main {
                                                                                            `'-'  \s"""
                 .indent(1)
         );
-
         System.out.printf("By %s version %s",config.getAuth(),config.getVersion());
 
+        // run interpreter
         while(true) {
 
             try {
