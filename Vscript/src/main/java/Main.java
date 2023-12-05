@@ -27,6 +27,7 @@ public class Main {
 
     private static void run() {
         final Scanner listener = new Scanner(System.in);
+        System.out.println(":> ");
         final String[] args = listener.nextLine().split(" ");
 
         Handler.handle(args);
