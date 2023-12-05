@@ -47,7 +47,9 @@ public class Main {
                     \\      / .'.'| |// '. `._____.-'/| |     |__|   |     | '-....-'`      |  |  \s
                      '----'.'.'.-'  /    `-.______ / | |           .'     '.               |  '.'\s
                            .'   \\_.'              `  |_|         '-----------'             |   / \s
-                                                                                           `'-'  \s""".indent(1));
+                                                                                           `'-'  \s"""
+                .indent(1)
+        );
 
         System.out.printf("By %s version %s",config.getAuth(),config.getVersion());
 
