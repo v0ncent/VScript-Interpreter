@@ -1,4 +1,4 @@
-import VscriptParsing.ParseFile;
+import VscriptParsingAndExecution.Parser;
 
 public class Handler {
 
@@ -6,7 +6,8 @@ public class Handler {
         switch (args[0]) {
             case "vscript" -> {
                 if (args.length < 2) throw new Exception("No arguments given!");
-                ParseFile.parse(args[1]);
+                final Parser parser = new Parser();
+                parser.parse(args[1]);
             }
 
             case "auth" -> System.out.println(Main.config.getAuth());
