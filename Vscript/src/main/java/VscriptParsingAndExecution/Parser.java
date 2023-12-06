@@ -36,16 +36,17 @@ public final class Parser {
             instructions.add(scanner.nextLine());
         }
 
+        execute(flags);
     }
 
-    public void execute() {
+    private void execute(String... flags) {
         if (!hasInstructions()) {
             return;
         }
 
         while(hasInstructions()) {
             String toExecute = getInstructions().poll();
-            // need to poll what instruction is then handle the logic for it
+            // need to poll what instruction is then handle the logic for it / need to parse parameters
         }
 
     }
