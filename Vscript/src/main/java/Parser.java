@@ -45,17 +45,16 @@ public final class Parser {
             return;
         }
 
+        int lineCount = 1;
         while(hasInstructions()) {
             String toExecute = getInstructions().poll();
 
-            // need to poll what instruction is then handle the logic for it / need to parse parameters from instructions and pass them to instruction instances
+            // need to parse parameters from instructions and pass them to instruction instances
             InstructionManager.InstructionType instructionType = InstructionManager.typeMapper.get(toExecute);
-
-            // need to parse params from instruction string
-            // need to handle syntax errors or unknown instruction errors.
             Instruction instruction = InstructionManager.executionHandler(instructionType, null);
 
             if (instruction == null) {
+                System.out.printf("There is a syntax error or the instruction does not exist! line: %d",lineCount);
                 return;
             }
 
@@ -65,6 +64,7 @@ public final class Parser {
                 e.printStackTrace();
             }
 
+            lineCount++;
         }
 
     }
