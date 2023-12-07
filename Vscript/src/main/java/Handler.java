@@ -1,5 +1,3 @@
-import VscriptParsingAndExecution.Parser;
-
 public class Handler {
 
     public static void handle(String[] args) throws Exception {

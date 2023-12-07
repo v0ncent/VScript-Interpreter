@@ -1,5 +1,3 @@
-package VscriptParsingAndExecution;
-
 import Functionalities.InstructionManager;
 
 import java.io.File;
