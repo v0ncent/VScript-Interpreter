@@ -1,5 +1,7 @@
 package VscriptParsingAndExecution;
 
+import Functionalities.InstructionManager;
+
 import java.io.File;
 import java.io.FileNotFoundException;
 import java.util.LinkedList;
@@ -46,7 +48,9 @@ public final class Parser {
 
         while(hasInstructions()) {
             String toExecute = getInstructions().poll();
-            // need to poll what instruction is then handle the logic for it / need to parse parameters
+
+            // need to poll what instruction is then handle the logic for it / need to parse parameters from instructions and pass them to instruction instances
+            InstructionManager.InstructionType instructionType = InstructionManager.typeMapper.get(toExecute);
         }
 
     }

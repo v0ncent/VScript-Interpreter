@@ -4,25 +4,34 @@ package Functionalities;
 public abstract class Instruction {
     private final InstructionManager.InstructionType instructionType;
     private final String instructionName;
+    private String unparsedParams;
 
     public Instruction(InstructionManager.InstructionType instructionType,
-                       String instructionName) {
+                       String instructionName,
+                       String unparsedParams) {
         this.instructionType = instructionType;
         this.instructionName = instructionName;
+        this.unparsedParams = unparsedParams;
         InstructionManager.typeMapper.put(instructionName,instructionType);
     }
 
     public abstract void execute();
+    protected abstract String[] parseParams(String params);
 
     public InstructionManager.InstructionType getInstructionType(String instruction) {
         return InstructionManager.typeMapper.get(instruction);
     }
 
     public Instruction cloneInstruction(Instruction instance) {
-        return new Instruction(instance.instructionType, instance.instructionName) {
+        return new Instruction(instance.instructionType, instance.instructionName, instance.unparsedParams) {
             @Override
             public void execute() {
                 instance.execute();
+            }
+
+            @Override
+            public String[] parseParams(String params) {
+                return instance.parseParams(params);
             }
         };
     }
@@ -35,6 +44,14 @@ public abstract class Instruction {
 
     public InstructionManager.InstructionType getInstructionType() {
         return instructionType;
+    }
+
+    public String getUnparsedParams() {
+        return unparsedParams;
+    }
+
+    public void setUnparsedParams(String unparsedParams) {
+        this.unparsedParams = unparsedParams;
     }
 
     @Override
