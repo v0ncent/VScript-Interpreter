@@ -1,3 +1,4 @@
+import Functionalities.Instruction;
 import Functionalities.InstructionManager;
 
 import java.io.File;
@@ -49,6 +50,21 @@ public final class Parser {
 
             // need to poll what instruction is then handle the logic for it / need to parse parameters from instructions and pass them to instruction instances
             InstructionManager.InstructionType instructionType = InstructionManager.typeMapper.get(toExecute);
+
+            // need to parse params from instruction string
+            // need to handle syntax errors or unknown instruction errors.
+            Instruction instruction = InstructionManager.executionHandler(instructionType, null);
+
+            if (instruction == null) {
+                return;
+            }
+
+            try {
+                instruction.execute();
+            } catch (Exception e) {
+                e.printStackTrace();
+            }
+
         }
 
     }
