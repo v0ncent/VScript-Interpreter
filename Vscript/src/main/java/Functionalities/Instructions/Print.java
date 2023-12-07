@@ -2,25 +2,30 @@ package Functionalities.Instructions;
 
 import Functionalities.Instruction;
 import Functionalities.InstructionManager;
+import Functionalities.Instructions.Params.UnparsedParam;
 
 public class Print extends Instruction {
-    public Print(InstructionManager.InstructionType instructionType, String instructionName, String unparsedParams) {
+    public Print(InstructionManager.InstructionType instructionType, String instructionName, UnparsedParam unparsedParams) {
         super(instructionType, instructionName,unparsedParams);
     }
 
     @Override
-    public void execute() {
+    public void execute(String[] parsedParams) {
         if (getUnparsedParams() == null) {
             System.out.println();
             return;
         }
 
         // one parameter instruction to print given parameter to console, so grab first element
-        System.out.println(this.parseParams(this.getUnparsedParams())[0]);
+        System.out.println();
     }
 
     @Override
-    public String[] parseParams(String params) {
-        return new String[0];
+    protected String[] parseParams(UnparsedParam params) {
+        if (params.isParsed()) {
+            return params.getParsedParams();
+        }
+
+        return params.getParsedParams();
     }
 }

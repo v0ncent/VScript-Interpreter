@@ -1,22 +1,24 @@
 // instruction super class to encapsulate all instructions of vscript to a type
 package Functionalities;
 
+import Functionalities.Instructions.Params.UnparsedParam;
+
 public abstract class Instruction {
     private final InstructionManager.InstructionType instructionType;
     private final String instructionName;
-    private String unparsedParams;
+    private UnparsedParam unparsedParams;
 
     public Instruction(InstructionManager.InstructionType instructionType,
                        String instructionName,
-                       String unparsedParams) {
+                       UnparsedParam unparsedParams) {
         this.instructionType = instructionType;
         this.instructionName = instructionName;
         this.unparsedParams = unparsedParams;
         InstructionManager.typeMapper.put(instructionName,instructionType);
     }
 
-    public abstract void execute();
-    protected abstract String[] parseParams(String params);
+    public abstract void execute(String[] parsedParams);
+    protected abstract String[] parseParams(UnparsedParam params);
 
     public InstructionManager.InstructionType getInstructionType(String instruction) {
         return InstructionManager.typeMapper.get(instruction);
@@ -25,12 +27,12 @@ public abstract class Instruction {
     public Instruction cloneInstruction(Instruction instance) {
         return new Instruction(instance.instructionType, instance.instructionName, instance.unparsedParams) {
             @Override
-            public void execute() {
-                instance.execute();
+            public void execute(String[] parsedParams) {
+                instance.execute(this.parseParams(instance.unparsedParams));
             }
 
             @Override
-            public String[] parseParams(String params) {
+            public String[] parseParams(UnparsedParam params) {
                 return instance.parseParams(params);
             }
         };
@@ -46,11 +48,11 @@ public abstract class Instruction {
         return instructionType;
     }
 
-    public String getUnparsedParams() {
+    public UnparsedParam getUnparsedParams() {
         return unparsedParams;
     }
 
-    public void setUnparsedParams(String unparsedParams) {
+    public void setUnparsedParams(UnparsedParam unparsedParams) {
         this.unparsedParams = unparsedParams;
     }
 

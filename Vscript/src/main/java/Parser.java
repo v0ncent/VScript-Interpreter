@@ -59,7 +59,7 @@ public final class Parser {
             }
 
             try {
-                instruction.execute();
+                instruction.execute(instruction.getUnparsedParams().getParsedParams());
             } catch (Exception e) {
                 e.printStackTrace();
             }
