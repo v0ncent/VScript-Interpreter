@@ -48,6 +48,17 @@ public final class Parser {
         int lineCount = 1;
         while(hasInstructions()) {
             String toExecute = getInstructions().poll();
+            String paramBlock = null;
+            String[] params = null;
+
+            if (toExecute != null) {
+                paramBlock = toExecute.substring(toExecute.indexOf("(")+1, toExecute.indexOf(")"));
+                params = paramBlock.split(Constants.PARAM_DISCRIMINATOR);
+            }
+
+            if (paramBlock == null) {
+
+            }
 
             // need to parse parameters from instructions and pass them to instruction instances
             InstructionManager.InstructionType instructionType = InstructionManager.typeMapper.get(toExecute);
@@ -59,6 +70,7 @@ public final class Parser {
             }
 
             try {
+                System.out.println(toExecute);
                 instruction.execute(instruction.getUnparsedParams().getParsedParams());
             } catch (Exception e) {
                 e.printStackTrace();
@@ -74,6 +86,6 @@ public final class Parser {
     }
 
     public boolean hasInstructions() {
-        return this.instructions.isEmpty();
+        return !this.instructions.isEmpty();
     }
 }

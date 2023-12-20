@@ -15,6 +15,10 @@ public final class InstructionManager {
     }
 
     public static Instruction executionHandler(InstructionType instructionType, UnparsedParam unparsedParams) {
+        if (unparsedParams == null) {
+
+        }
+
         switch (instructionType) {
             case PRINT -> {
                 return new Print(instructionType, "print", unparsedParams);
@@ -22,7 +26,10 @@ public final class InstructionManager {
             case MATH -> {
                 return new MathInstruction(instructionType, "mathinstruction", unparsedParams);
             }
+            default -> {
+                return null;
+            }
         }
-        return null;
+
     }
 }
