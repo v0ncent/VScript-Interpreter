@@ -48,7 +48,7 @@ public final class Parser {
         int lineCount = 1;
         while(hasInstructions()) {
             String toExecute = getInstructions().poll();
-            String paramBlock = null;
+            String paramBlock;
             String[] params = null;
 
             if (toExecute != null) {
@@ -56,7 +56,7 @@ public final class Parser {
                 params = paramBlock.split(Constants.PARAM_DISCRIMINATOR);
             }
 
-            if (paramBlock == null) {
+            if (params == null) {
 
             }
 
