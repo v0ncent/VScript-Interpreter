@@ -13,7 +13,7 @@ public final class InstructionManager {
         MATH
     }
 
-    public static Instruction executionHandler(InstructionType instructionType, String[] params) {
+    public static Instruction executionHandler(InstructionType instructionType, Object[] params) {
         switch (instructionType) {
             case PRINT -> {
                 return new Print(instructionType, "print", params);

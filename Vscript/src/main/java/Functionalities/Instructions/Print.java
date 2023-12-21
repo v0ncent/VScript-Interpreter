@@ -6,12 +6,12 @@ import Functionalities.InstructionManager;
 import java.util.Arrays;
 
 public class Print extends Instruction {
-    public Print(InstructionManager.InstructionType instructionType, String instructionName, String[] params) {
+    public Print(InstructionManager.InstructionType instructionType, String instructionName, Object[] params) {
         super(instructionType, instructionName,params);
     }
 
     @Override
-    public void execute(String[] params) {
+    public void execute(Object[] params) {
         if (params == null) {
             System.out.println();
             return;

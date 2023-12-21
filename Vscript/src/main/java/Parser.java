@@ -49,11 +49,16 @@ public final class Parser {
         while(hasInstructions()) {
             String toExecute = getInstructions().poll();
             String paramBlock;
-            String[] params = null;
+            String[] paramsRaw = null;
+            Object[] params = null;
 
             if (toExecute != null) {
                 paramBlock = toExecute.substring(toExecute.indexOf("(")+1, toExecute.indexOf(")"));
-                params = paramBlock.split(Constants.PARAM_DISCRIMINATOR);
+                paramsRaw = paramBlock.split(Constants.PARAM_DISCRIMINATOR);
+            }
+
+            if (paramsRaw != null) {
+                params = paramsRaw;
             }
 
             InstructionManager.InstructionType instructionType = InstructionManager.typeMapper.get(toExecute);

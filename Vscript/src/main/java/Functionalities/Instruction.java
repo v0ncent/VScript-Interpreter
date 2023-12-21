@@ -4,18 +4,18 @@ package Functionalities;
 public abstract class Instruction {
     private final InstructionManager.InstructionType instructionType;
     private final String instructionName;
-    private final String[] params;
+    private final Object[] params;
 
     public Instruction(InstructionManager.InstructionType instructionType,
                        String instructionName,
-                       String[] params) {
+                       Object[] params) {
         this.instructionType = instructionType;
         this.instructionName = instructionName;
         this.params = params;
         InstructionManager.typeMapper.put(instructionName,instructionType);
     }
 
-    public abstract void execute(String[] params);
+    public abstract void execute(Object[] params);
 
     public InstructionManager.InstructionType getInstructionType(String instruction) {
         return InstructionManager.typeMapper.get(instruction);
@@ -24,7 +24,7 @@ public abstract class Instruction {
     public Instruction cloneInstruction(Instruction instance) {
         return new Instruction(instance.getInstructionType(), instance.getInstructionName(), instance.getParams()) {
             @Override
-            public void execute(String[] params) {
+            public void execute(Object[] params) {
                 instance.execute(params);
             }
         };
@@ -40,7 +40,7 @@ public abstract class Instruction {
         return instructionType;
     }
 
-    public String[] getParams() {
+    public Object[] getParams() {
         return params;
     }
 
