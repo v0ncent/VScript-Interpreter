@@ -3,7 +3,6 @@ import Functionalities.InstructionManager;
 
 import java.io.File;
 import java.io.FileNotFoundException;
-import java.util.Arrays;
 import java.util.LinkedList;
 import java.util.Queue;
 import java.util.Scanner;
@@ -56,8 +55,6 @@ public final class Parser {
                 paramBlock = toExecute.substring(toExecute.indexOf("(")+1, toExecute.indexOf(")"));
                 params = paramBlock.split(Constants.PARAM_DISCRIMINATOR);
             }
-
-            System.out.println(Arrays.toString(params));
 
             InstructionManager.InstructionType instructionType = InstructionManager.typeMapper.get(toExecute);
             Instruction instruction = InstructionManager.executionHandler(instructionType, params);
