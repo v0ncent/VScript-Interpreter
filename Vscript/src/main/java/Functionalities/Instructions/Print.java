@@ -2,32 +2,23 @@ package Functionalities.Instructions;
 
 import Functionalities.Instruction;
 import Functionalities.InstructionManager;
-import Functionalities.Instructions.Params.UnparsedParam;
+
+import java.util.Arrays;
 
 public class Print extends Instruction {
-    public Print(InstructionManager.InstructionType instructionType, String instructionName, UnparsedParam unparsedParams) {
-        super(instructionType, instructionName,unparsedParams);
+    public Print(InstructionManager.InstructionType instructionType, String instructionName, String[] params) {
+        super(instructionType, instructionName,params);
     }
 
     @Override
-    public void execute(String[] parsedParams) {
-        if (getUnparsedParams() == null) {
+    public void execute(String[] params) {
+        if (params == null) {
             System.out.println();
             return;
         }
 
         // one parameter instruction to print given parameter to console, so grab first element
-        System.out.println();
+        System.out.println(Arrays.toString(params));
     }
 
-    @Override
-    protected String[] parseParams(UnparsedParam params) {
-        if (params.isParsed()) {
-            return params.getParsedParams();
-        }
-
-
-
-        return params.getParsedParams();
-    }
 }

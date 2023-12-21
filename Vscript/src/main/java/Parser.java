@@ -3,13 +3,14 @@ import Functionalities.InstructionManager;
 
 import java.io.File;
 import java.io.FileNotFoundException;
+import java.util.Arrays;
 import java.util.LinkedList;
 import java.util.Queue;
 import java.util.Scanner;
 
 public final class Parser {
     private final Queue<String> instructions = new LinkedList<>();
-    public void parse(String path, String... flags) throws FileNotFoundException {
+    public void parse(String path) throws FileNotFoundException {
         File file = null;
 
         try {
@@ -37,10 +38,10 @@ public final class Parser {
             instructions.add(scanner.nextLine());
         }
 
-        execute(flags);
+        execute();
     }
 
-    private void execute(String... flags) {
+    private void execute() {
         if (!hasInstructions()) {
             return;
         }
@@ -56,13 +57,10 @@ public final class Parser {
                 params = paramBlock.split(Constants.PARAM_DISCRIMINATOR);
             }
 
-            if (params == null) {
+            System.out.println(Arrays.toString(params));
 
-            }
-
-            // need to parse parameters from instructions and pass them to instruction instances
             InstructionManager.InstructionType instructionType = InstructionManager.typeMapper.get(toExecute);
-            Instruction instruction = InstructionManager.executionHandler(instructionType, null);
+            Instruction instruction = InstructionManager.executionHandler(instructionType, params);
 
             if (instruction == null) {
                 System.out.printf("There is a syntax error or the instruction does not exist! line: %d",lineCount);
@@ -70,8 +68,7 @@ public final class Parser {
             }
 
             try {
-                System.out.println(toExecute);
-                instruction.execute(instruction.getUnparsedParams().getParsedParams());
+                instruction.execute(params);
             } catch (Exception e) {
                 e.printStackTrace();
             }

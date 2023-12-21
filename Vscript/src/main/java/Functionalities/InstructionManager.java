@@ -1,7 +1,6 @@
 package Functionalities;
 
 import Functionalities.Instructions.MathInstruction;
-import Functionalities.Instructions.Params.UnparsedParam;
 import Functionalities.Instructions.Print;
 
 import java.util.HashMap;
@@ -14,17 +13,13 @@ public final class InstructionManager {
         MATH
     }
 
-    public static Instruction executionHandler(InstructionType instructionType, UnparsedParam unparsedParams) {
-        if (unparsedParams == null) {
-
-        }
-
+    public static Instruction executionHandler(InstructionType instructionType, String[] params) {
         switch (instructionType) {
             case PRINT -> {
-                return new Print(instructionType, "print", unparsedParams);
+                return new Print(instructionType, "print", params);
             }
             case MATH -> {
-                return new MathInstruction(instructionType, "mathinstruction", unparsedParams);
+                return new MathInstruction(instructionType, "mathinstruction", params);
             }
             default -> {
                 return null;

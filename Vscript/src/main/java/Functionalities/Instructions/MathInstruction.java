@@ -2,20 +2,15 @@ package Functionalities.Instructions;
 
 import Functionalities.Instruction;
 import Functionalities.InstructionManager;
-import Functionalities.Instructions.Params.UnparsedParam;
 
 public class MathInstruction extends Instruction {
-    public MathInstruction(InstructionManager.InstructionType instructionType, String instructionName, UnparsedParam unparsedParams) {
-        super(instructionType, instructionName, unparsedParams);
+    public MathInstruction(InstructionManager.InstructionType instructionType, String instructionName, String[] params) {
+        super(instructionType, instructionName, params);
     }
 
     @Override
-    public void execute(String[] parsedParams) {
+    public void execute(String[] params) {
 
     }
 
-    @Override
-    protected String[] parseParams(UnparsedParam params) {
-        return params.getParsedParams();
-    }
 }

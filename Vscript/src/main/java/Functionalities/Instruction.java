@@ -1,39 +1,31 @@
 // instruction super class to encapsulate all instructions of vscript to a type
 package Functionalities;
 
-import Functionalities.Instructions.Params.UnparsedParam;
-
 public abstract class Instruction {
     private final InstructionManager.InstructionType instructionType;
     private final String instructionName;
-    private UnparsedParam unparsedParams;
+    private final String[] params;
 
     public Instruction(InstructionManager.InstructionType instructionType,
                        String instructionName,
-                       UnparsedParam unparsedParams) {
+                       String[] params) {
         this.instructionType = instructionType;
         this.instructionName = instructionName;
-        this.unparsedParams = unparsedParams;
+        this.params = params;
         InstructionManager.typeMapper.put(instructionName,instructionType);
     }
 
-    public abstract void execute(String[] parsedParams);
-    protected abstract String[] parseParams(UnparsedParam params);
+    public abstract void execute(String[] params);
 
     public InstructionManager.InstructionType getInstructionType(String instruction) {
         return InstructionManager.typeMapper.get(instruction);
     }
 
     public Instruction cloneInstruction(Instruction instance) {
-        return new Instruction(instance.instructionType, instance.instructionName, instance.unparsedParams) {
+        return new Instruction(instance.getInstructionType(), instance.getInstructionName(), instance.getParams()) {
             @Override
-            public void execute(String[] parsedParams) {
-                instance.execute(this.parseParams(instance.unparsedParams));
-            }
-
-            @Override
-            public String[] parseParams(UnparsedParam params) {
-                return instance.parseParams(params);
+            public void execute(String[] params) {
+                instance.execute(params);
             }
         };
     }
@@ -48,12 +40,8 @@ public abstract class Instruction {
         return instructionType;
     }
 
-    public UnparsedParam getUnparsedParams() {
-        return unparsedParams;
-    }
-
-    public void setUnparsedParams(UnparsedParam unparsedParams) {
-        this.unparsedParams = unparsedParams;
+    public String[] getParams() {
+        return params;
     }
 
     @Override
