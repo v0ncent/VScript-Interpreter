@@ -1,15 +1,13 @@
+import Exceptions.NoInstructionGivenException;
 import Functionalities.Instruction;
-import Functionalities.InstructionManager;
 
 import java.io.File;
 import java.io.FileNotFoundException;
-import java.util.LinkedList;
-import java.util.Queue;
-import java.util.Scanner;
+import java.util.*;
 
 public final class Parser {
     private final Queue<String> instructions = new LinkedList<>();
-    public void parse(String path) throws FileNotFoundException {
+    public void parse(String path) throws FileNotFoundException, NoInstructionGivenException {
         File file = null;
 
         try {
@@ -40,7 +38,7 @@ public final class Parser {
         execute();
     }
 
-    private void execute() {
+    private void execute() throws NoInstructionGivenException {
         if (!hasInstructions()) {
             return;
         }
@@ -48,11 +46,19 @@ public final class Parser {
         int lineCount = 1;
         while(hasInstructions()) {
             String toExecute = getInstructions().poll();
+
+            // if line we are looking at is a comment
+            if (toExecute != null && toExecute.startsWith("//") || toExecute != null && toExecute.equals("")) {
+                continue;
+            }
+
+            String instructionRaw = null;
             String paramBlock;
             String[] paramsRaw = null;
             Object[] params = null;
 
             if (toExecute != null) {
+                instructionRaw = toExecute.substring(0, toExecute.indexOf("("));
                 paramBlock = toExecute.substring(toExecute.indexOf("(")+1, toExecute.indexOf(")"));
                 paramsRaw = paramBlock.split(Constants.PARAM_DISCRIMINATOR);
             }
@@ -61,8 +67,12 @@ public final class Parser {
                 params = paramsRaw;
             }
 
-            InstructionManager.InstructionType instructionType = InstructionManager.typeMapper.get(toExecute);
-            Instruction instruction = InstructionManager.executionHandler(instructionType, params);
+            if (instructionRaw == null) {
+                throw new NoInstructionGivenException("No instruction provided!", lineCount);
+            }
+
+            Instruction.InstructionType instructionType = Constants.typeMapper.get(instructionRaw);
+            Instruction instruction = Instruction.executionHandler(instructionType, params);
 
             if (instruction == null) {
                 System.out.printf("There is a syntax error or the instruction does not exist! line: %d",lineCount);
@@ -70,7 +80,7 @@ public final class Parser {
             }
 
             try {
-                instruction.execute(params);
+                instruction.execute(params, lineCount);
             } catch (Exception e) {
                 e.printStackTrace();
             }

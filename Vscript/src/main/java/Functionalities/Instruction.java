@@ -1,31 +1,36 @@
 // instruction super class to encapsulate all instructions of vscript to a type
 package Functionalities;
 
+import Exceptions.SyntaxException;
+import Functionalities.Instructions.MathInstruction;
+import Functionalities.Instructions.Print;
+
 public abstract class Instruction {
-    private final InstructionManager.InstructionType instructionType;
+    private final Instruction.InstructionType instructionType;
     private final String instructionName;
     private final Object[] params;
 
-    public Instruction(InstructionManager.InstructionType instructionType,
+    public Instruction(Instruction.InstructionType instructionType,
                        String instructionName,
                        Object[] params) {
         this.instructionType = instructionType;
         this.instructionName = instructionName;
         this.params = params;
-        InstructionManager.typeMapper.put(instructionName,instructionType);
     }
 
-    public abstract void execute(Object[] params);
+    public abstract void execute(Object[] params, int currentLine) throws SyntaxException;
 
-    public InstructionManager.InstructionType getInstructionType(String instruction) {
-        return InstructionManager.typeMapper.get(instruction);
-    }
+    public Instruction cloneInstruction(Object instance) {
+        if (instance.getClass() != this.getClass()) {
+            return null;
+        }
 
-    public Instruction cloneInstruction(Instruction instance) {
-        return new Instruction(instance.getInstructionType(), instance.getInstructionName(), instance.getParams()) {
+        final Instruction instruction = (Instruction) instance;
+
+        return new Instruction(instruction.getInstructionType(), instruction.getInstructionName(), instruction.getParams()) {
             @Override
-            public void execute(Object[] params) {
-                instance.execute(params);
+            public void execute(Object[] params, int currentLineCount) throws SyntaxException {
+                instruction.execute(params, currentLineCount);
             }
         };
     }
@@ -36,7 +41,7 @@ public abstract class Instruction {
         return instructionName;
     }
 
-    public InstructionManager.InstructionType getInstructionType() {
+    public Instruction.InstructionType getInstructionType() {
         return instructionType;
     }
 
@@ -54,4 +59,26 @@ public abstract class Instruction {
                 &&
                 ((Instruction) obj).instructionType.equals(this.instructionType);
     }
+
+    // Class Utility
+    public enum InstructionType {
+        PRINT,
+        MATH
+    }
+
+    public static Instruction executionHandler(InstructionType instructionType, Object[] params) {
+        switch (instructionType) {
+            case PRINT -> {
+                return new Print(instructionType, "print", params);
+            }
+            case MATH -> {
+                return new MathInstruction(instructionType, "mathinstruction", params);
+            }
+            default -> {
+                return null;
+            }
+        }
+
+    }
+
 }

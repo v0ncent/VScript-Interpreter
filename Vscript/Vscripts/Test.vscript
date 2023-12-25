@@ -1,1 +1,5 @@
-print("Hello World!");
+// how print functionality works: print(Object object)
+print("Hello World!")
+print("String concatenation test " + 15)
+print("I should throw error", bruh)
+
