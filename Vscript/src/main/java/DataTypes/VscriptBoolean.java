@@ -1,8 +1,7 @@
 package DataTypes;
 
 public final class VscriptBoolean extends VscriptObject<Boolean> {
-    @Override
-    public boolean isType(Object obj) {
-        return false;
+    public VscriptBoolean(Boolean value) {
+        super(value);
     }
 }
