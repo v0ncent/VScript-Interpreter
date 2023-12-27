@@ -4,7 +4,7 @@ public final class VscriptString extends VscriptObject<String> {
     public VscriptString(String value) {
         super(value);
     }
-//
+
     public String handleConcatenation(Object[] toConcat) {
 
         return null;
